@@ -82,16 +82,24 @@ void dupprintf(FILE * f, char const * fmt, ...) { // duplicate printf
 
 
 /*******************************ACTUAL TESTS***************************/
+struct Position {
+    uint32_t x;
+    uint32_t y;
+};
 
 void test_struct() {
-    
+    struct dtab * dtab_test1; 
+    DTAB_INIT(dtab_test1, struct Position);
+    lok(dtab_test1->len == DTAB_LEN_INIT);
+    struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position); 
+    lok(dtab_test2->len == DTAB_LEN_INIT);
 }
 
 int main() {
     globalf = fopen("dtab_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing dtab.\n");
     // lrun("test_len_num", test_len_num);
-    // lrun("test_struct", test_struct);
+    lrun("test_struct", test_struct);
 
     lresults();
 
