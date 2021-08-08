@@ -124,4 +124,4 @@ $(EXEC_GCC): $(SOURCES_TEST) $(TARGETS_DTAB_GCC); gcc $< $(TARGETS_DTAB_GCC) -o 
 $(EXEC_CLANG): $(SOURCES_TEST) $(TARGETS_DTAB_CLANG); clang $< $(TARGETS_DTAB_CLANG) -o $@ $(CFLAGS)
 
 .PHONY: clean
-clean: ; @echo "Cleaning DTAB" & rm -frv $(EXEC)  out *.gcda *.gcno *.gcov *.info *.exe *.bin
+clean: ; @echo "Cleaning DTAB" & rm -frv $(EXEC)  out *.gcda *.gcno *.gcov *.info *.exe *.bin *.o
