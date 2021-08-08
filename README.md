@@ -44,7 +44,7 @@ Add ```dtab.h``` and ```dtab.c``` to your source code.
 - Compatible: compiles with ```tcc```, ```gcc```, ```clang``` 
 - Single file.
 - Simple: a darr is an array.
-- Short: < 100 lines
+- Short: < 200 lines
 
 ## Motivation
 Make a very simple hash table. 
