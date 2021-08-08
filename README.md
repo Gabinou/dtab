@@ -7,11 +7,9 @@ Both have ```len``` allocated length and ```num``` active elements.
 ```dtab``` also contains the value type's ```bytesize``` to move bytes around.
 
 ## Installation
-
 Add ```dtab.h``` and ```dtab.c``` to your source code.
 
 ## Tutorial
-
 Initiate a ```dtab```:
 ```c
 struct Position {
@@ -45,7 +43,6 @@ Frees ```dtab->keys``` and ```dtab->values```, then the ```dtab``` itself. There
 
 ## Features
 - Compatible: compiles with ```tcc```, ```gcc```, ```clang``` 
-- Single file.
 - Simple: a ```dtab``` is a struct, ```keys``` and ```values``` are arrays.
 - Short: < 200 lines
 
