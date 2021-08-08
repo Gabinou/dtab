@@ -6,16 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-/****************************** TYPEDEFS *******************************/
+/********************* DTAB: DYNAMIC HASH TABLE FOR C99 v1.0 *****************/
 typedef uint64_t dtab_hash_t;
 typedef unsigned char dtab_byte_t;
 
-/****************************** STRING HASHING *******************************/
 extern uint64_t dtab_hash_djb2(const char * str); // slightly faster
 extern uint64_t dtab_hash_sdbm(const char * str);
 #define DTAB_HASH(name) dtab_hash_djb2(name)
 
-/********************** DTAB: DYNAMIC HASH TABLE FOR C99 v1.0 ******************/
 #define DTAB_LEN_INIT 16
 #define DTAB_NUM_INIT 1
 #define DTAB_NULL 0
