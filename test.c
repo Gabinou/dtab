@@ -92,8 +92,14 @@ void test_struct() {
     DTAB_INIT(dtab_test1, struct Position);
     lok(dtab_test1->len == DTAB_LEN_INIT);
     // struct Position * temp_pos = dtab_get(dtab_test1, DTAB_HASH("Test"));
-    struct Position * temp_pos = DTAB_GET(dtab_test1, "Test");
-    lok(temp_pos == NULL);
+    struct Position * temp_posp = DTAB_GET(dtab_test1, "Test");
+    lok(temp_posp == NULL);
+    struct Position temp_pos = {.x = 1, .y = 2};
+    DTAB_ADD(dtab_test1, temp_pos, "Test");
+    temp_posp = DTAB_GET(dtab_test1, "Test");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == temp_pos.x);
+    lok(temp_posp->y == temp_pos.y);
     // DTAB_GET(dtab_test1, "Test");
 
     struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);

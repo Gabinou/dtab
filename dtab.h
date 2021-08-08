@@ -42,9 +42,9 @@ extern void * dtab_get(struct dtab * dtab_ptr, dtab_hash_t in_hash);
 extern void dtab_add(struct dtab * dtab_ptr, void * value, dtab_hash_t in_hash);
 extern size_t dtab_found(struct dtab * dtab_ptr, dtab_hash_t in_hash);
 
-#define DTAB_ADD(dtab_ptr, name, value) dtab_add(dtab_ptr,value, DTAB_HASH(name))
-#define DTAB_GET(dtab_ptr, name) DTAB_GET_(dtab_ptr, name)
-#define DTAB_GET_(dtab_ptr, name) dtab_get(dtab_ptr, DTAB_HASH(name))
+#define DTAB_ADD(dtab_ptr, value, name) dtab_add(dtab_ptr, &value, DTAB_HASH(name))
+#define DTAB_ADDP(dtab_ptr, value, name) dtab_add(dtab_ptr, value, DTAB_HASH(name))
+#define DTAB_GET(dtab_ptr, name) dtab_get(dtab_ptr, DTAB_HASH(name))
 
 #define DTAB_FREE(dtab_ptr)
 #define DTAB_DEL(dtab_ptr, name)
