@@ -113,6 +113,17 @@ void test_struct() {
     lok(temp_posp != NULL);
     lok(temp_posp->x == temp_posp2->x);
     lok(temp_posp->y == temp_posp2->y);
+
+    temp_posp = DTAB_GET(dtab_test1, DTAB_STRINGIFY(Test));
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == temp_posp2->x);
+    lok(temp_posp->y == temp_posp2->y);
+    // DTAB_GET(dtab_test1, "Test");
+
+    temp_posp = DTAB_GETS(dtab_test1, Test);
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == temp_posp2->x);
+    lok(temp_posp->y == temp_posp2->y);
     // DTAB_GET(dtab_test1, "Test");
 
     struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);

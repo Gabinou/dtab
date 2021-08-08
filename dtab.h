@@ -37,23 +37,27 @@ extern void dtab_add(struct dtab * dtab_ptr, void * value, dtab_hash_t in_hash);
 extern size_t dtab_found(struct dtab * dtab_ptr, dtab_hash_t in_hash);
 
 
+#define DTAB_STRINGIFY(name) #name
 #define DTAB_INIT(dtab_ptr, type) dtab_ptr = malloc(sizeof(*dtab_ptr));\
 dtab_ptr->len = DTAB_LEN_INIT;\
 dtab_ptr->num = DTAB_NUM_INIT;\
 dtab_ptr->values = calloc((DTAB_LEN_INIT), sizeof(type));\
-dtab_ptr->keys = malloc(sizeof(*dtab_ptr->keys)*(DTAB_LEN_INIT));\
+dtab_ptr->keys = malloc(sizeof(*dtab_ptr->keys) * (DTAB_LEN_INIT));\
 dtab_ptr->keys[DTAB_NULL] = DTAB_NULL;\
 dtab_ptr->bytesize = sizeof(type);
 
 /* DTAB macros hash the input strings everytime.
  Might be faster to put hash in variable and call functions directly */
 #define DTAB_ADD(dtab_ptr, value, name) dtab_add(dtab_ptr, &value, DTAB_HASH(name))
+#define DTAB_ADDS(dtab_ptr, value, name) dtab_add(dtab_ptr, &value, DTAB_HASH(DTAB_STRINGIFY(name)))
 #define DTAB_ADDP(dtab_ptr, value, name) dtab_add(dtab_ptr, value, DTAB_HASH(name))
+#define DTAB_ADDPS(dtab_ptr, value, name) dtab_add(dtab_ptr, value, DTAB_HASH(DTAB_STRINGIFY(name)))
 #define DTAB_GET(dtab_ptr, name) dtab_get(dtab_ptr, DTAB_HASH(name))
+#define DTAB_GETS(dtab_ptr, name) dtab_get(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
 
-#define DTAB_FREE(dtab_ptr) free(dtab_ptr->keys) ;\
+#define DTAB_FREE(dtab_ptr) do {free(dtab_ptr->keys) ;\
 free(dtab_ptr->values);\
-free(dtab_ptr)
+free(dtab_ptr); } while(0)
 #define DTAB_DEL(dtab_ptr, name)
 #define DTAB_GROW(dtab_ptr)
 #define DTAB_REALLOC(dtab_ptr)
