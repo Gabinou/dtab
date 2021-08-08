@@ -118,7 +118,9 @@ void test_struct() {
     struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);
     lok(dtab_test2->len == DTAB_LEN_INIT);
 
-
+    DTAB_FREE(dtab_test2);
+    DTAB_FREE(dtab_test1);
+    free(temp_posp2);
 }
 
 int main() {
