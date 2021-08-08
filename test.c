@@ -79,6 +79,17 @@ void dupprintf(FILE * f, char const * fmt, ...) { // duplicate printf
     va_end(ap);
 }
 
+#define TEMPLATE_TYPES REGISTER_ENUM(uint8_t) \
+REGISTER_ENUM(int8_t) \
+REGISTER_ENUM(uint16_t) \
+REGISTER_ENUM(int16_t) \
+REGISTER_ENUM(uint32_t) \
+REGISTER_ENUM(int32_t) \
+REGISTER_ENUM(uint64_t) \
+REGISTER_ENUM(int64_t) \
+REGISTER_ENUM(float) \
+REGISTER_ENUM(double)
+
 /*******************************ACTUAL TESTS***************************/
 struct Position {
     uint32_t x;
@@ -246,123 +257,109 @@ void test_struct() {
     free(temp_posp2);
 }
 
-void test_type() {
-    struct dtab * dtab_test1;
-    DTAB_INIT(dtab_test1, uint64_t);
-    lok(dtab_test1->len == DTAB_LEN_INIT);
-
-    uint64_t * temp_posp = DTAB_GET(dtab_test1, "Test");
-    lok(temp_posp == NULL);
-    uint64_t tempval = 4;
-    DTAB_ADD(dtab_test1, tempval, "Test");
-    temp_posp = DTAB_GET(dtab_test1, "Test");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == tempval);
-    uint64_t temp_posp2 = 4;
-    DTAB_ADDP(dtab_test1, &temp_posp2, "Test2");
-    temp_posp = DTAB_GET(dtab_test1, "Test2");
-    lok(temp_posp != NULL);
-    lok(temp_posp2 == *temp_posp);
-
-    temp_posp = DTAB_GET(dtab_test1, DTAB_STRINGIFY(Test));
-    lok(temp_posp != NULL);
-    lok(temp_posp2 == *temp_posp);
-
-    temp_posp = DTAB_GETS(dtab_test1, Test);
-    lok(temp_posp != NULL);
-    lok(temp_posp2 == *temp_posp);
-
-    struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);
-    lok(dtab_test2->len == DTAB_LEN_INIT);
-
-    temp_posp2 = 1;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test31");
-    temp_posp2 = 2;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test3");
-    temp_posp2 = 3;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test4");
-    temp_posp2 = 4;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test5");
-    temp_posp2 = 5;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test6");
-    temp_posp2 = 6;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test7");
-    temp_posp2 = 7;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test8");
-    temp_posp2 = 8;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test9");
-    temp_posp2 = 9;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test10");
-
-    temp_posp = DTAB_GET(dtab_test1, "Test3");
-    lok(temp_posp != NULL);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test4");
-    lok(temp_posp != NULL);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test5");
-    lok(temp_posp != NULL);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test6");
-    lok(temp_posp != NULL);
-
-    DTAB_DEL(dtab_test1, "Test6");
-    temp_posp = DTAB_GET(dtab_test1, "Test6");
-    lok(temp_posp == NULL);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test3");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == 2);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test4");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == 3);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test5");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == 4);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test8");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == 7);
-
-    DTAB_DEL_SCRAMBLE(dtab_test1, "Test5");
-    temp_posp = DTAB_GET(dtab_test1, "Test5");
-    lok(temp_posp == NULL);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test3");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == 2);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test4");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == 3);
-
-    temp_posp = DTAB_GET(dtab_test1, "Test8");
-    lok(temp_posp != NULL);
-    lok(*temp_posp == 7);
-
-    temp_posp2 = 9;
-    DTAB_ADD(dtab_test1, temp_posp2, "Test10");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test11");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test12");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test13");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test14");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test15");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test16");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test17");
-    DTAB_ADD(dtab_test1, temp_posp2, "Test18");
-    lok(dtab_test1->len == DTAB_LEN_INIT * DTAB_GROWTH_FACTOR);
-
-    DTAB_FREE(dtab_test2);
-    DTAB_FREE(dtab_test1);
+#define REGISTER_ENUM(type) test_##type() {\
+    struct dtab * dtab_test1;\
+    DTAB_INIT(dtab_test1, uint64_t);\
+    lok(dtab_test1->len == DTAB_LEN_INIT);\
+    uint64_t * temp_posp = DTAB_GET(dtab_test1, "Test");\
+    lok(temp_posp == NULL);\
+    uint64_t tempval = 4;\
+    DTAB_ADD(dtab_test1, tempval, "Test");\
+    temp_posp = DTAB_GET(dtab_test1, "Test");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == tempval);\
+    uint64_t temp_posp2 = 4;\
+    DTAB_ADDP(dtab_test1, &temp_posp2, "Test2");\
+    temp_posp = DTAB_GET(dtab_test1, "Test2");\
+    lok(temp_posp != NULL);\
+    lok(temp_posp2 == *temp_posp);\
+    temp_posp = DTAB_GET(dtab_test1, DTAB_STRINGIFY(Test));\
+    lok(temp_posp != NULL);\
+    lok(temp_posp2 == *temp_posp);\
+    temp_posp = DTAB_GETS(dtab_test1, Test);\
+    lok(temp_posp != NULL);\
+    lok(temp_posp2 == *temp_posp);\
+    struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);\
+    lok(dtab_test2->len == DTAB_LEN_INIT);\
+    temp_posp2 = 1;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test31");\
+    temp_posp2 = 2;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test3");\
+    temp_posp2 = 3;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test4");\
+    temp_posp2 = 4;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test5");\
+    temp_posp2 = 5;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test6");\
+    temp_posp2 = 6;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test7");\
+    temp_posp2 = 7;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test8");\
+    temp_posp2 = 8;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test9");\
+    temp_posp2 = 9;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test10");\
+    temp_posp = DTAB_GET(dtab_test1, "Test3");\
+    lok(temp_posp != NULL);\
+    temp_posp = DTAB_GET(dtab_test1, "Test4");\
+    lok(temp_posp != NULL);\
+    temp_posp = DTAB_GET(dtab_test1, "Test5");\
+    lok(temp_posp != NULL);\
+    temp_posp = DTAB_GET(dtab_test1, "Test6");\
+    lok(temp_posp != NULL);\
+    DTAB_DEL(dtab_test1, "Test6");\
+    temp_posp = DTAB_GET(dtab_test1, "Test6");\
+    lok(temp_posp == NULL);\
+    temp_posp = DTAB_GET(dtab_test1, "Test3");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == 2);\
+    temp_posp = DTAB_GET(dtab_test1, "Test4");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == 3);\
+    temp_posp = DTAB_GET(dtab_test1, "Test5");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == 4);\
+    temp_posp = DTAB_GET(dtab_test1, "Test8");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == 7);\
+    DTAB_DEL_SCRAMBLE(dtab_test1, "Test5");\
+    temp_posp = DTAB_GET(dtab_test1, "Test5");\
+    lok(temp_posp == NULL);\
+    temp_posp = DTAB_GET(dtab_test1, "Test3");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == 2);\
+    temp_posp = DTAB_GET(dtab_test1, "Test4");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == 3);\
+    temp_posp = DTAB_GET(dtab_test1, "Test8");\
+    lok(temp_posp != NULL);\
+    lok(*temp_posp == 7);\
+    temp_posp2 = 9;\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test10");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test11");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test12");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test13");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test14");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test15");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test16");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test17");\
+    DTAB_ADD(dtab_test1, temp_posp2, "Test18");\
+    lok(dtab_test1->len == DTAB_LEN_INIT * DTAB_GROWTH_FACTOR);\
+    DTAB_FREE(dtab_test2);\
+    DTAB_FREE(dtab_test1);\
 }
+TEMPLATE_TYPES
+#undef REGISTER_ENUM
 
 int main() {
     globalf = fopen("dtab_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing dtab.\n");
     lrun("test_struct", test_struct);
-    lrun("test_type", test_type);
+
+#define REGISTER_ENUM(type) lrun(DTAB_STRINGIFY(test_##type), test_##type);
+    TEMPLATE_TYPES
+#undef REGISTER_ENUM
+    // lrun("test_type", test_type);
 
     lresults();
 
