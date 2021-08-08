@@ -22,14 +22,12 @@ extern uint64_t dtab_hash_sdbm(const char * str);
 #define DTAB_NULL 0
 #define DTAB_GROWTH_FACTOR 2
 
-// DTAB_INIT: a dtab is a struct with two arrays: list of name hashes (keys) and list of values.
-// they have len total allocated length and num active elements.
 struct dtab {
     dtab_hash_t * keys;
     void * values;
-    size_t len;
+    size_t len; /* allocated length */
+    size_t num; /* number of active elements (num < len) */
     size_t bytesize;
-    size_t num;
 };
 
 extern void * dtab_get(struct dtab * dtab_ptr, dtab_hash_t in_hash);
