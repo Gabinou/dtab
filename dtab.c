@@ -84,9 +84,10 @@ void dtab_add(struct dtab * dtab_ptr, void * value, dtab_hash_t in_hash) {
 
 void dtab_del(struct dtab * dtab_ptr, dtab_hash_t in_hash) {
     size_t pos = dtab_found(dtab_ptr, in_hash);
-
     if ((pos) && (pos < dtab_ptr->num)) {
         memmove(dtab_ptr->keys + pos, dtab_ptr->keys + pos + 1, (dtab_ptr->num - pos - 1)*sizeof(dtab_hash_t)) ;
+        dtab_byte_t * values_bytesptr = (dtab_byte_t *)dtab_ptr->values;
+        memmove(values_bytesptr + pos * dtab_ptr->bytesize, values_bytesptr + (pos + 1)*dtab_ptr->bytesize, (dtab_ptr->num - pos - 1)*dtab_ptr->bytesize);
         dtab_ptr->num--;
     }
 
@@ -94,8 +95,10 @@ void dtab_del(struct dtab * dtab_ptr, dtab_hash_t in_hash) {
 
 void dtab_del_scramble(struct dtab * dtab_ptr, dtab_hash_t in_hash) {
     size_t pos = dtab_found(dtab_ptr, in_hash);
-    if (pos) {
-        memmove(dtab_ptr->keys + pos, dtab_ptr->keys + dtab_ptr->num, sizeof(dtab_hash_t));
+    if ((pos) && (pos < dtab_ptr->num))  {
+        memmove(dtab_ptr->keys + pos, dtab_ptr->keys + dtab_ptr->num - 1, sizeof(dtab_hash_t));
+        dtab_byte_t * values_bytesptr = (dtab_byte_t *)dtab_ptr->values;
+        memmove(values_bytesptr + pos * dtab_ptr->bytesize, values_bytesptr + dtab_ptr->num * dtab_ptr->bytesize, dtab_ptr->bytesize);
         dtab_ptr->num--;
     }
 }

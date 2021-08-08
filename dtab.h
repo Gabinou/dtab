@@ -32,7 +32,6 @@ struct dtab {
     size_t num;
 };
 
-
 extern void * dtab_get(struct dtab * dtab_ptr, dtab_hash_t in_hash);
 extern void dtab_add(struct dtab * dtab_ptr, void * value, dtab_hash_t in_hash);
 extern size_t dtab_found(struct dtab * dtab_ptr, dtab_hash_t in_hash);
@@ -70,8 +69,5 @@ free(dtab_ptr); } while(0)
 #define DTAB_DELS(dtab_ptr, name) dtab_del(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
 #define DTAB_DEL_SCRAMBLE(dtab_ptr, name) dtab_del_scramble(dtab_ptr, DTAB_HASH(name))
 #define DTAB_DEL_SCRAMBLES(dtab_ptr, name) dtab_del_scramble(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
-
-
-
 
 #endif /* DARR */
