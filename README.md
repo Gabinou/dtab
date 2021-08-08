@@ -1,6 +1,11 @@
 # DTAB (Dynamic Table) 
 
-Dynamic hash table for C99. A dtab is a 
+Dynamic hash table for C99. 
+
+A ```dtab``` is a ```struct``` that contains two arrays: ```keys``` and ```values```.
+Both have ```len``` allocated length and ```num``` active elements.
+```dtab``` also contains the value type's ```bytesize``` to move bytes around.
+
 
 ## Installation
 Add ```dtab.h``` and ```dtab.c``` to your source code.

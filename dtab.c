@@ -76,5 +76,26 @@ void dtab_add(struct dtab * dtab_ptr, void * value, dtab_hash_t in_hash) {
         newvalue_bytesptr = values_bytesptr + (dtab_ptr->bytesize * pos);
     }
     memcpy(newvalue_bytesptr, value, dtab_ptr->bytesize);
+    if (dtab_ptr->num == dtab_ptr->len) {
+        DTAB_GROW(dtab_ptr);
+    }
 
+}
+
+void dtab_del(struct dtab * dtab_ptr, dtab_hash_t in_hash) {
+    size_t pos = dtab_found(dtab_ptr, in_hash);
+
+    if ((pos) && (pos < dtab_ptr->num)) {
+        memmove(dtab_ptr->keys + pos, dtab_ptr->keys + pos + 1, (dtab_ptr->num - pos - 1)*sizeof(dtab_hash_t)) ;
+        dtab_ptr->num--;
+    }
+
+}
+
+void dtab_del_scramble(struct dtab * dtab_ptr, dtab_hash_t in_hash) {
+    size_t pos = dtab_found(dtab_ptr, in_hash);
+    if (pos) {
+        memmove(dtab_ptr->keys + pos, dtab_ptr->keys + dtab_ptr->num, sizeof(dtab_hash_t));
+        dtab_ptr->num--;
+    }
 }
