@@ -24,10 +24,10 @@ extern uint64_t dtab_hash_sdbm(const char * str);
 
 struct dtab {
     size_t len; /* allocated length */
-    size_t num; /* number of active elements (num < len) */
     size_t bytesize;
-    dtab_hash_t ** keys;
-    void ** values;
+    size_t num; /* number of active elements (num < len) */
+    void * values;
+    dtab_hash_t * keys;
 };
 
 extern void * dtab_get(struct dtab * dtab_ptr, dtab_hash_t in_hash);
@@ -41,9 +41,9 @@ extern void dtab_del_scramble(struct dtab * dtab_ptr, dtab_hash_t in_hash);
 #define DTAB_INIT(dtab_ptr, type) dtab_ptr = malloc(sizeof(*dtab_ptr));\
 dtab_ptr->len = DTAB_LEN_INIT;\
 dtab_ptr->num = DTAB_NUM_INIT;\
-*dtab_ptr->values = calloc((DTAB_LEN_INIT), sizeof(type));\
-*dtab_ptr->keys = malloc(sizeof(*dtab_ptr->keys) * (DTAB_LEN_INIT));\
-*dtab_ptr->keys[DTAB_NULL] = DTAB_NULL;\
+dtab_ptr->values = calloc(DTAB_LEN_INIT, sizeof(type));\
+dtab_ptr->keys = malloc(sizeof(*dtab_ptr->keys) * (DTAB_LEN_INIT));\
+dtab_ptr->keys[DTAB_NULL] = DTAB_NULL;\
 dtab_ptr->bytesize = sizeof(type);
 #define DTAB_GROW(dtab_ptr)  do {\
     dtab_ptr->len*=DTAB_GROWTH_FACTOR;\
