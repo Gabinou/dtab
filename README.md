@@ -31,6 +31,8 @@ Delete a ```dtab```:
 DTAB_DEL(dtab_test, "Test1");
 DTAB_DELSCRAMBLE(dtab_test, "Test2");
 ```
+```DTAB_DELSCRAMBLE``` might be faster because it does not copy all elements over, just the top one to the deleted element.
+
 Free a ```dtab```:
 ```c
 DTAB_FREE(dtab_test);
