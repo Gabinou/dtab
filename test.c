@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <time.h>
@@ -80,7 +79,6 @@ void dupprintf(FILE * f, char const * fmt, ...) { // duplicate printf
     va_end(ap);
 }
 
-
 /*******************************ACTUAL TESTS***************************/
 struct Position {
     uint32_t x;
@@ -118,17 +116,14 @@ void test_struct() {
     lok(temp_posp != NULL);
     lok(temp_posp->x == temp_posp2->x);
     lok(temp_posp->y == temp_posp2->y);
-    // DTAB_GET(dtab_test1, "Test");
 
     temp_posp = DTAB_GETS(dtab_test1, Test);
     lok(temp_posp != NULL);
     lok(temp_posp->x == temp_posp2->x);
     lok(temp_posp->y == temp_posp2->y);
-    // DTAB_GET(dtab_test1, "Test");
 
     struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);
     lok(dtab_test2->len == DTAB_LEN_INIT);
-
 
     temp_posp2->x = 1;
     temp_posp2->y = 1;
@@ -193,6 +188,11 @@ void test_struct() {
     lok(temp_posp->x == 3);
     lok(temp_posp->y == 3);
 
+    temp_posp = DTAB_GET(dtab_test1, "Test8");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == 7);
+    lok(temp_posp->y == 7);
+
     DTAB_DEL_SCRAMBLE(dtab_test1, "Test5");
     temp_posp = DTAB_GET(dtab_test1, "Test5");
     lok(temp_posp == NULL);
@@ -206,6 +206,41 @@ void test_struct() {
     lok(temp_posp != NULL);
     lok(temp_posp->x == 2);
     lok(temp_posp->y == 2);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test8");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == 7);
+    lok(temp_posp->y == 7);
+
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test10");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test11");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test12");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test13");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test14");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test15");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test16");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test17");
+    temp_posp2->x = 9;
+    temp_posp2->y = 9;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test18");
+    lok(dtab_test1->len == DTAB_LEN_INIT * DTAB_GROWTH_FACTOR);
+
 
     DTAB_FREE(dtab_test2);
     DTAB_FREE(dtab_test1);

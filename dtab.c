@@ -52,7 +52,6 @@ size_t dtab_found(struct dtab * dtab_ptr, dtab_hash_t in_hash) {
     return (pos);
 }
 
-
 void * dtab_get(struct dtab * dtab_ptr, dtab_hash_t in_hash) {
     void * out = NULL;
     size_t pos = dtab_found(dtab_ptr, in_hash);
