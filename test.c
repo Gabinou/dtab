@@ -129,6 +129,84 @@ void test_struct() {
     struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);
     lok(dtab_test2->len == DTAB_LEN_INIT);
 
+
+    temp_posp2->x = 1;
+    temp_posp2->y = 1;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test3");
+
+    temp_posp2->x = 2;
+    temp_posp2->y = 2;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test4");
+
+    temp_posp2->x = 3;
+    temp_posp2->y = 3;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test5");
+
+    temp_posp2->x = 4;
+    temp_posp2->y = 4;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test6");
+
+    temp_posp2->x = 5;
+    temp_posp2->y = 5;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test7");
+
+    temp_posp2->x = 6;
+    temp_posp2->y = 6;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test8");
+
+    temp_posp2->x = 7;
+    temp_posp2->y = 7;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test8");
+
+    temp_posp2->x = 8;
+    temp_posp2->y = 8;
+    DTAB_ADDP(dtab_test1, temp_posp2, "Test9");
+
+    temp_posp = DTAB_GET(dtab_test1, "Test3");
+    lok(temp_posp != NULL);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test4");
+    lok(temp_posp != NULL);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test5");
+    lok(temp_posp != NULL);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test6");
+    lok(temp_posp != NULL);
+
+    DTAB_DEL(dtab_test1, "Test6");
+    temp_posp = DTAB_GET(dtab_test1, "Test6");
+    lok(temp_posp == NULL);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test3");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == 1);
+    lok(temp_posp->y == 1);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test4");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == 2);
+    lok(temp_posp->y == 2);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test5");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == 3);
+    lok(temp_posp->y == 3);
+
+    DTAB_DEL_SCRAMBLE(dtab_test1, "Test5");
+    temp_posp = DTAB_GET(dtab_test1, "Test5");
+    lok(temp_posp == NULL);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test3");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == 1);
+    lok(temp_posp->y == 1);
+
+    temp_posp = DTAB_GET(dtab_test1, "Test4");
+    lok(temp_posp != NULL);
+    lok(temp_posp->x == 2);
+    lok(temp_posp->y == 2);
+
     DTAB_FREE(dtab_test2);
     DTAB_FREE(dtab_test1);
     free(temp_posp2);
