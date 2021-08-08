@@ -6,6 +6,10 @@ A ```dtab``` is a ```struct``` that contains two arrays: ```keys``` and ```value
 Both have ```len``` allocated length and ```num``` active elements.
 ```dtab``` also contains the value type's ```bytesize``` to move bytes around.
 
+## Installation
+
+Add ```dtab.h``` and ```dtab.c``` to your source code.
+
 ## Tutorial
 
 Initiate a ```dtab```:
@@ -38,9 +42,6 @@ Free a ```dtab```:
 DTAB_FREE(dtab_test);
 ```
 Frees ```dtab->keys``` and ```dtab->values```, then the ```dtab``` itself. There is no magic.
-
-## Installation
-Add ```dtab.h``` and ```dtab.c``` to your source code.
 
 ## Features
 - Compatible: compiles with ```tcc```, ```gcc```, ```clang``` 
