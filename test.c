@@ -100,7 +100,6 @@ void test_struct() {
     struct dtab * dtab_test1;
     DTAB_INIT(dtab_test1, struct Position);
     lok(dtab_test1->len == DTAB_LEN_INIT);
-    // struct Position * temp_pos = dtab_get(dtab_test1, DTAB_HASH("Test"));
     struct Position * temp_posp = DTAB_GET(dtab_test1, "Test");
     lok(temp_posp == NULL);
     struct Position temp_pos = {.x = 1, .y = 2};
