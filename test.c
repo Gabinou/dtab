@@ -103,8 +103,10 @@ void test_struct() {
     struct Position * temp_posp = DTAB_GET(dtab_test1, "Test");
     lok(temp_posp == NULL);
     struct Position temp_pos = {.x = 1, .y = 2};
+    lok(temp_pos.x == 1);
+    lok(temp_pos.y == 2);
     DTAB_ADD(dtab_test1, temp_pos, "Test");
-    temp_posp = DTAB_GET(dtab_test1, "Test");
+    temp_posp = (struct Position *) DTAB_GET(dtab_test1, "Test");
     lok(temp_posp != NULL);
     lok(temp_posp->x == temp_pos.x);
     lok(temp_posp->y == temp_pos.y);
@@ -354,12 +356,9 @@ int main() {
     globalf = fopen("dtab_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing dtab.\n");
     lrun("test_struct", test_struct);
-
 #define REGISTER_ENUM(type) lrun(DTAB_STRINGIFY(test_##type), test_##type);
     TEMPLATE_TYPES
 #undef REGISTER_ENUM
-    // lrun("test_type", test_type);
-
     lresults();
 
     dupprintf(globalf, "dtab Test End \n \n");
