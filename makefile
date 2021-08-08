@@ -86,8 +86,13 @@ EXEC_ALL := ${EXEC}
 .PHONY: all 
 all: ${ASTYLE} $(EXEC) run 
 SOURCES_TEST := test.c
+SOURCES_DTAB := dtab.c
 HEADERS := $(wildcard *.h)
-SOURCES_ALL := $(SOURCES_TEST)
+SOURCES_ALL := $(SOURCES_TEST) $(SOURCES_DTAB)
+TARGETS_DTAB := $(SOURCES_DTAB:.c=.o)
+TARGETS_DTAB_GCC := $(SOURCES_DTAB:.c=_gcc.o)
+TARGETS_DTAB_TCC := $(SOURCES_DTAB:.c=_tcc.o)
+TARGETS_DTAB_CLANG := $(SOURCES_DTAB:.c=_clang.o)
 EXEC_GCC := $(PREFIX)test_gcc$(EXTENSION)
 EXEC_TCC := $(PREFIX)test_tcc$(EXTENSION)
 EXEC_CLANG := $(PREFIX)test_clang$(EXTENSION)
@@ -108,10 +113,15 @@ clang: $(EXEC_CLANG) ; $(EXEC_CLANG)
 .PHONY : astyle
 astyle: $(HEADERS) $(SOURCES_ALL); astyle --style=java --indent=spaces=4 --indent-switches --pad-oper --pad-comma --pad-header --unpad-paren --align-pointer=middle --align-reference=middle --add-braces --add-one-line-braces --attach-return-type --convert-tabs --suffix=none *.h *.c
 
-$(EXEC): $(SOURCES_TEST); ${COMPILER} $< -o $@ $(CFLAGS) $(FLAGS_COV)
-$(EXEC_TCC): $(SOURCES_TEST); tcc $< -o $@ $(CFLAGS)
-$(EXEC_GCC): $(SOURCES_TEST); gcc $< -o $@ $(CFLAGS)
-$(EXEC_CLANG): $(SOURCES_TEST); clang $< -o $@ $(CFLAGS)
+$(TARGETS_DTAB) : $(SOURCES_DTAB) ; $(COMPILER) $< -c -o $@ $(FLAGS_COV)
+$(TARGETS_DTAB_CLANG) : $(SOURCES_DTAB) ; clang $< -c -o $@ 
+$(TARGETS_DTAB_GCC) : $(SOURCES_DTAB) ; gcc $< -c -o $@
+$(TARGETS_DTAB_TCC) : $(SOURCES_DTAB) ; tcc $< -c -o $@ 
+
+$(EXEC): $(SOURCES_TEST) $(TARGETS_DTAB); ${COMPILER} $< $(TARGETS_DTAB) -o $@ $(CFLAGS) $(FLAGS_COV)
+$(EXEC_TCC): $(SOURCES_TEST) $(TARGETS_DTAB_TCC); tcc $<$(TARGETS_DTAB_TCC) -o $@ $(CFLAGS)
+$(EXEC_GCC): $(SOURCES_TEST) $(TARGETS_DTAB_GCC); gcc $<$(TARGETS_DTAB_GCC) -o $@ $(CFLAGS)
+$(EXEC_CLANG): $(SOURCES_TEST) $(TARGETS_DTAB_CLANG); clang $< $(TARGETS_DTAB_CLANG) -o $@ $(CFLAGS)
 
 .PHONY: clean
 clean: ; @echo "Cleaning DTAB" & rm -frv $(EXEC)  out *.gcda *.gcno *.gcov *.info *.exe *.bin

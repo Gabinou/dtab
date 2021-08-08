@@ -88,11 +88,18 @@ struct Position {
 };
 
 void test_struct() {
-    struct dtab * dtab_test1; 
+    struct dtab * dtab_test1;
     DTAB_INIT(dtab_test1, struct Position);
     lok(dtab_test1->len == DTAB_LEN_INIT);
-    struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position); 
+    // struct Position * temp_pos = dtab_get(dtab_test1, DTAB_HASH("Test"));
+    struct Position * temp_pos = DTAB_GET(dtab_test1, "Test");
+    lok(temp_pos == NULL);
+    // DTAB_GET(dtab_test1, "Test");
+
+    struct dtab * dtab_test2 = DTAB_INIT(dtab_test2, struct Position);
     lok(dtab_test2->len == DTAB_LEN_INIT);
+
+
 }
 
 int main() {
