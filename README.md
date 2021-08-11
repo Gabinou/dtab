@@ -45,6 +45,7 @@ Frees ```dtab->keys``` and ```dtab->values```, then the ```dtab``` itself. There
 - Compatible: compiles with ```tcc```, ```gcc```, ```clang``` 
 - Simple: a ```dtab``` is a struct, ```keys``` and ```values``` are arrays.
 - Short: < 200 lines
+- Included in [nmath](https://gitlab.com/Gabinou/noursmath)
 
 ## Motivation
 Make a very simple hash table. 
