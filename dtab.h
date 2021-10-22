@@ -51,16 +51,18 @@ free(dtab_ptr->values);\
 free(dtab_ptr); } while(0)
 
 /* DTAB macros hash the input strings everytime.
-Might be faster to put hash in variable and call functions directly? */
-#define DTAB_ADD(dtab_ptr, value, name) dtab_add(dtab_ptr, &value, DTAB_HASH(name))
+Might be faster to put hash in variable and call functions directly? 
+S for stringify, H for hash */
+
+#define DTAB_ADD(dtab_ptr, value, key) dtab_add(dtab_ptr, &value, key)
 #define DTAB_ADDS(dtab_ptr, value, name) dtab_add(dtab_ptr, &value, DTAB_HASH(DTAB_STRINGIFY(name)))
-#define DTAB_ADDP(dtab_ptr, value, name) dtab_add(dtab_ptr, value, DTAB_HASH(name))
-#define DTAB_ADDPS(dtab_ptr, value, name) dtab_add(dtab_ptr, value, DTAB_HASH(DTAB_STRINGIFY(name)))
+#define DTAB_ADDH(dtab_ptr, value, name) dtab_add(dtab_ptr, value, DTAB_HASH(name))
+#define DTAB_ADDSH(dtab_ptr, value, name) dtab_add(dtab_ptr, value, DTAB_HASH(DTAB_STRINGIFY(name)))
 #define DTAB_GET(dtab_ptr, name) dtab_get(dtab_ptr, DTAB_HASH(name))
-#define DTAB_GETS(dtab_ptr, name) dtab_get(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
+#define DTAB_GETSH(dtab_ptr, name) dtab_get(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
 #define DTAB_DEL(dtab_ptr, name) dtab_del(dtab_ptr, DTAB_HASH(name))
-#define DTAB_DELS(dtab_ptr, name) dtab_del(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
+#define DTAB_DELSH(dtab_ptr, name) dtab_del(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
 #define DTAB_DEL_SCRAMBLE(dtab_ptr, name) dtab_del_scramble(dtab_ptr, DTAB_HASH(name))
-#define DTAB_DEL_SCRAMBLES(dtab_ptr, name) dtab_del_scramble(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
+#define DTAB_DEL_SCRAMBLESH(dtab_ptr, name) dtab_del_scramble(dtab_ptr, DTAB_HASH(DTAB_STRINGIFY(name)))
 
 #endif /* DTAB */
