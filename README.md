@@ -16,16 +16,24 @@ struct Position {
     uint32_t x;
     uint32_t y;
 };
-struct dtab * dtab_test = DTAB_INIT(dtab_test2, struct Position);
+struct dtab * dtab_test = DTAB_INIT(dtab_test, struct Position);
 ```
 Allocs memory for the ```dtab```, ```keys``` and ```values```. Sets bytesize to the input type. Initial  allocated length is ```DTAB_LEN_INIT```.
 
-Add to a variable ```dtab```:
+Add to a variable ```dtab``` with a string key (H for hash, S for stringify):
 ```c
 struct Position temp_pos = {.x = 1, .y = 2};
-DTAB_ADD(dtab_test, temp_pos, "Test1");
-DTAB_ADDP(dtab_test, &temp_pos, "Test2");
+DTAB_ADDH(dtab_test, &temp_pos, "Test1");
+DTAB_ADDSH(dtab_test, &temp_pos, Test1);
 ```
+
+Add to a variable ```dtab``` with a positive integer key:
+```c
+struct Position temp_pos = {.x = 2, .y = 4};
+int key = 1;
+DTAB_ADD(dtab_test, &temp_pos, key);
+```
+
 If the key already exists, the value is updated. ```keys[0]``` and ```values[0]``` are reserved for ```NULL```.
 
 Delete a ```dtab```:
